@@ -18,10 +18,13 @@ public class Home_Frag_Adapter extends RecyclerView.Adapter<Home_Frag_Adapter.Vi
 
     private ArrayList<String> names;
     private ArrayList<String> vals;
-    public Home_Frag_Adapter(ArrayList<String> name, ArrayList<String> val)
+    private ArrayList<String> prev_values;
+    public Home_Frag_Adapter(ArrayList<String> name, ArrayList<String> val,ArrayList<String> prev_value)
     {
         names=name;
         vals=val;
+        prev_value=prev_values;
+
     }
 
     @NonNull
@@ -36,19 +39,21 @@ public class Home_Frag_Adapter extends RecyclerView.Adapter<Home_Frag_Adapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String value = vals.get(position);
         String curr_name = names.get(position);
-        Log.i("BindView1"," "+curr_name+" "+value);
+        double prev_val_var = 1.12/*Double.parseDouble(prev_values.get(position))*/;
+        Log.i("BindView1"," "+curr_name+" "+value+" "+prev_val_var);
         for(int i =0;i<Global.names.size();i++)
         {
 
             double val = Double.parseDouble(value);
-            //Log.i("map",""+val+" "+ Double.parseDouble(String.valueOf(Global.map.get(curr_name))));
-            double prev_val =1.0;
 
-            if (val>prev_val)
+            Log.i("map123"," "+val+" "+" "+curr_name+" "+ Global.map.get(curr_name));
+
+
+            if (val>prev_val_var)
             {
                 holder.rate.setTextColor(Color.rgb(96, 245, 42));
             }
-            else if(val<prev_val)
+            else if(val<prev_val_var)
                 {
                     holder.rate.setTextColor(Color.rgb(224, 43, 43));
                 }

@@ -28,8 +28,8 @@ import retrofit2.Response;
 
 public class Home_Frag extends Fragment {
 
-    public ArrayList<String> prevnames= new ArrayList<>();
-    public ArrayList<Double> prevvalues = new ArrayList<>();
+    //public ArrayList<String> prevnames= new ArrayList<>();
+    public ArrayList<String> prevvalues = new ArrayList<>();
     RecyclerView recyclerView;
     Home_Frag_Adapter home_frag_adapter;
     TextView txt_value;
@@ -50,8 +50,6 @@ public class Home_Frag extends Fragment {
         getdata();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.i("view1"," "+Global.names+" "+Global.values);
-        recyclerView.setAdapter(home_frag_adapter);
-        txt_value=view.findViewById(R.id.rate2);
 
         return view;
 
@@ -62,9 +60,20 @@ public class Home_Frag extends Fragment {
     public void onStart() {
         super.onStart();
         getdata();
-        home_frag_adapter= new Home_Frag_Adapter(Global.names, Global.values);
-        Log.i("OnStart"," "+Global.names+" "+Global.values);
+        for(int i=0;i<Global.names.size();i++)
+        {
+
+            String name = Global.names.get(i);
+            Log.i("currr_name",""+name);
+            String value = String.valueOf(Global.map.get(name));
+            Log.i("prev_val",""+value);
+            prevvalues.add(value);
+        }
+        home_frag_adapter= new Home_Frag_Adapter(Global.names, Global.values,prevvalues);
         recyclerView.setAdapter(home_frag_adapter);
+
+        Log.i("OnStart"," "+Global.names+" "+Global.values);
+
 
         /*for (int m=0;m<Global.values.size();m++)
         {
@@ -126,7 +135,7 @@ public class Home_Frag extends Fragment {
                     Global.map.put("USD",list.getRates().getUSD());
                     Global.map.put("MXN",list.getRates().getMXN());
 
-                    Log.i("map",""+Global.map.get("USD"));
+                    Log.i("message","i am called");
 
 
 

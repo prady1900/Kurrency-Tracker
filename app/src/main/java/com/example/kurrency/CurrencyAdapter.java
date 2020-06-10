@@ -56,7 +56,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHo
         double rate = rates.get(position);
         String name = names.get(position);
         holder.curr_Name.setText(name);
-        holder.rate.setText(String.valueOf(new DecimalFormat("#0.000").format(rate)));
+        holder.rate.setText(String.valueOf(new DecimalFormat("#.####").format(rate)));
     }
 
     @Override

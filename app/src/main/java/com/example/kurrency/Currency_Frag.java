@@ -119,7 +119,8 @@ public class Currency_Frag extends Fragment{
 
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                     alertDialog.setTitle(names.get(pos));
-                    alertDialog.setMessage(String.valueOf(rates.get(pos)));
+                    alertDialog.setMessage(String.valueOf(new DecimalFormat("#.####")
+                            .format(rates.get(pos))));
 
                     final EditText input = new EditText(getActivity());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -131,19 +132,20 @@ public class Currency_Frag extends Fragment{
                     alertDialog.setPositiveButton("BUY", (dialog, which) -> {
                         String units = input.getText().toString();
                         String name_of_currency = names.get(pos);
-                        String rates = new DecimalFormat("#.##").format(rate[pos]);
+                        String rates1 = new DecimalFormat("#.####").format(rates.get(pos));
                         Log.i("alertDialog"," "+units+
                                 " "+name_of_currency+" "+
                                 rates);
 
                         //double actual_rate = Double.parseDouble(units)/Double.parseDouble(rate);
-                        Global.values.add(rates);
+                        Global.values.add(rates1);
                         Global.names.add(name_of_currency);
 
 
 
 
                         names.remove(pos);
+                        rates.remove(pos);
                         currencyAdapter.notifyDataSetChanged();
 
                         Toast.makeText(getActivity(), "Added to Your PortFolio",
