@@ -24,13 +24,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    Home_Frag home_frag;
     private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        home_frag = new Home_Frag();
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);

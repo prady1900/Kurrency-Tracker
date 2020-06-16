@@ -1,5 +1,7 @@
 package com.example.kurrency;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,10 +35,9 @@ import retrofit2.Response;
 public class Home_Frag extends Fragment {
 
     //public ArrayList<String> prevnames= new ArrayList<>();
-    public ArrayList<String> prevvalues = new ArrayList<>();
+
     RecyclerView recyclerView;
     Home_Frag_Adapter home_frag_adapter;
-    TextView txt_value;
 
 
     public Home_Frag()
@@ -46,10 +51,12 @@ public class Home_Frag extends Fragment {
 
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_currency_list, container, false);
+
         recyclerView = view.findViewById(R.id.home_frag);
-        getdata();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Log.i("view1"," "+Global.names+" "+Global.values);
+        getdata1();
+        loaddata();
+        Log.i("view12"," "+Global.names+" "+Global.values+" "+Global.prevvalues);
 
         return view;
 
@@ -59,36 +66,17 @@ public class Home_Frag extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getdata();
-        for(int i=0;i<Global.names.size();i++)
-        {
 
-            String name = Global.names.get(i);
-            Log.i("currr_name",""+name);
-            String value = String.valueOf(Global.map.get(name));
-            Log.i("prev_val",""+value);
-            prevvalues.add(value);
-        }
-        home_frag_adapter= new Home_Frag_Adapter(Global.names, Global.values,prevvalues);
-        recyclerView.setAdapter(home_frag_adapter);
-
-        Log.i("OnStart"," "+Global.names+" "+Global.values);
+        getdata1();
+        Log.i("Onstart"," "+Global.names+" "+Global.values+" "+Global.prevvalues);
+        loaddata();
 
 
-        /*for (int m=0;m<Global.values.size();m++)
-        {
-            if (prevvalues.get(m)<Double.parseDouble(Global.values.get(m)))
-            {
-                txt_value.setTextColor(0x36c20c);
-            }
-            else
-            {
-                txt_value.setTextColor(0xe01414);
-            }
-        }*/
+
+
     }
 
-    public void getdata()
+    public void getdata1()
         {
 
             String pattern = "yyyy-MM-dd";
@@ -135,9 +123,21 @@ public class Home_Frag extends Fragment {
                     Global.map.put("USD",list.getRates().getUSD());
                     Global.map.put("MXN",list.getRates().getMXN());
 
-                    Log.i("message","i am called");
-
-
+                    Log.i("message1","i am called");
+                    Log.i("USD",""+Global.map.get("USD"));
+                    if (Global.prevvalues.size()>0)
+                    {Global.prevvalues.clear();}
+                    for(int i=0;i<Global.names.size();i++)
+                    {
+                        String name = Global.names.get(i);
+                        //Log.i("curr_name",""+name);
+                        double value = Global.map.get(name);
+                        //Log.i("prev_val",""+value);
+                        Global.prevvalues.add(value);
+                    }
+                    Log.i("getdata", " " + Global.names + " " + Global.values + " " + Global.prevvalues);
+                    home_frag_adapter = new Home_Frag_Adapter(Global.names, Global.values,Global.prevvalues);
+                    recyclerView.setAdapter(home_frag_adapter);
 
                 }
                 @Override
@@ -146,4 +146,15 @@ public class Home_Frag extends Fragment {
                 }
             });
         }
+        public void loaddata()
+        {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared_value",Context.MODE_PRIVATE);
+            Gson gson = new Gson();
+            String ret_names = sharedPreferences.getString("saved_names", null);
+            String ret_values = sharedPreferences.getString("saved_values",null);
+            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            Global.names = gson.fromJson(ret_names,type);
+            Global.values= gson.fromJson(ret_values,type);
+        }
+
 }

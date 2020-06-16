@@ -4,6 +4,7 @@ package com.example.kurrency;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+
+import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -127,6 +131,7 @@ public class Currency_Frag extends Fragment{
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
                     alertDialog.setView(input);
 
                     alertDialog.setPositiveButton("BUY", (dialog, which) -> {
@@ -140,6 +145,16 @@ public class Currency_Frag extends Fragment{
                         //double actual_rate = Double.parseDouble(units)/Double.parseDouble(rate);
                         Global.values.add(rates1);
                         Global.names.add(name_of_currency);
+
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared_value", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        Gson gson = new Gson();
+                        String saved_names_var = gson.toJson(Global.names);
+                        String saved_values_var = gson.toJson(Global.values);
+                        editor.putString("saved_names", saved_names_var);
+                        editor.putString("saved_values", saved_values_var);
+                        editor.apply();
+
 
 
 
