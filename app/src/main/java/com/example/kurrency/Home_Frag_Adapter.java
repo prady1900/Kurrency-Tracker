@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Home_Frag_Adapter extends RecyclerView.Adapter<Home_Frag_Adapter.ViewHolder> {
@@ -49,10 +50,21 @@ public class Home_Frag_Adapter extends RecyclerView.Adapter<Home_Frag_Adapter.Vi
             
             if (val>prev_val_var)
             {
+                String precentage_increase = new DecimalFormat("#.###").format(
+                        ((val-prev_val_var)/val)*100)+"%";
+
+                holder.rate_of_change.setText(precentage_increase);
+                holder.rate_of_change.setTextColor(Color.rgb(96, 245, 42));
                 holder.rate.setTextColor(Color.rgb(96, 245, 42));
             }
             else if(val<prev_val_var)
                 {
+                    String precentage_decrease = new DecimalFormat("#.###").format(
+                            ((prev_val_var-val)/val)*100)+"%";
+
+                    holder.rate_of_change.setText(precentage_decrease);
+                    holder.rate_of_change.setTextColor(Color.rgb(224, 43, 43));
+                    holder.rate.setTextColor(Color.rgb(224, 43, 43));
                     holder.rate.setTextColor(Color.rgb(224, 43, 43));
                 }
         }
@@ -70,10 +82,13 @@ public class Home_Frag_Adapter extends RecyclerView.Adapter<Home_Frag_Adapter.Vi
     {
         TextView curr_Name;
         TextView rate;
+        TextView rate_of_change;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             curr_Name = itemView.findViewById(R.id.curr_name1);
             rate = itemView.findViewById(R.id.rate2);
+            rate_of_change = itemView.findViewById(R.id.change);
+
         }
     }
 }

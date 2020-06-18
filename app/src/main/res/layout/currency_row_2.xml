@@ -69,8 +69,8 @@
                 android:id="@+id/rate2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="28dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="40dp"
                 android:background="#ffffff"
                 android:fontFamily="sans-serif-black"
                 android:padding="3dp"
@@ -79,6 +79,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="0.007" />
+
+            <TextView
+                android:id="@+id/change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="52dp"
+                android:layout_marginBottom="4dp"
+                android:background="#ffffff"
+                android:fontFamily="sans-serif-black"
+                android:padding="3dp"
+                android:textColor="#17191a"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rate2"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="50.23%" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,6 +63,7 @@ public class Home_Frag extends Fragment {
     }
 
 
+
     @Override
     public void onStart() {
         super.onStart();
@@ -87,8 +88,8 @@ public class Home_Frag extends Fragment {
             String prevDate = s.format(new Date(cal.getTimeInMillis()));
             Log.i("date1"," "+prevDate);
 
-
-            Call<CurrencyList> prevoiusList = CurrencyAPI.getCurrencyService().getPreviousDayData("INR");
+            Log.i("Globaldate",""+Global.date);
+            Call<CurrencyList> prevoiusList = CurrencyAPI.getCurrencyService().getPreviousDayData(Global.date,"INR");
             prevoiusList.enqueue(new Callback<CurrencyList>() {
                 @Override
                 public void onResponse(Call<CurrencyList> call, Response<CurrencyList> response) {
@@ -131,8 +132,8 @@ public class Home_Frag extends Fragment {
                     {
                         String name = Global.names.get(i);
                         //Log.i("curr_name",""+name);
-                        double value = Global.map.get(name);
-                        //Log.i("prev_val",""+value);
+                        double value = Double.parseDouble(String.valueOf(Global.map.get(name)));
+                        Log.i("prev_val",""+value);
                         Global.prevvalues.add(value);
                     }
                     Log.i("getdata", " " + Global.names + " " + Global.values + " " + Global.prevvalues);

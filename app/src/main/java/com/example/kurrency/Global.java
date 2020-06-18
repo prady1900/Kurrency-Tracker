@@ -8,4 +8,5 @@ public class Global {
     public static ArrayList<String> values = new ArrayList<>();
     public static ArrayList<Double> prevvalues = new ArrayList<>();
     public static HashMap<String,Double> map = new HashMap<>();
+    public static String date;
 }

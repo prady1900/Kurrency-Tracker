@@ -37,8 +37,9 @@ public class CurrencyAPI {
         @GET("/latest")
         Call<CurrencyList> getCurrencyList(@Query("base") String base);
 
-        @GET("/latest")
-        Call<CurrencyList> getPreviousDayData(@Query("base") String base);
+        @GET("/{date}")
+        Call<CurrencyList> getPreviousDayData(@Path("date") String date
+                ,@Query("base") String base);
 
     }
 }

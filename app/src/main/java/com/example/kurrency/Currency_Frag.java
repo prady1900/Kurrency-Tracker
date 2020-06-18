@@ -2,6 +2,7 @@ package com.example.kurrency;
 
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -73,9 +74,19 @@ public class Currency_Frag extends Fragment{
     public void  getData()
     {
         Call<CurrencyList> currencyList  =CurrencyAPI.getCurrencyService().getCurrencyList("INR");
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(getActivity());
+        progressDoalog.setMessage("It's loading....");
+        progressDoalog.setTitle("Currency");
+        progressDoalog.setProgressStyle(ProgressDialog.BUTTON_NEUTRAL);
+        // show it
+
+        progressDoalog.show();
+
         currencyList.enqueue(new Callback<CurrencyList>() {
             @Override
             public void onResponse(Call<CurrencyList> call, Response<CurrencyList> response) {
+                progressDoalog.dismiss();
                 CurrencyList list = response.body();
                 assert list != null;
                 name= new String[]{
@@ -135,10 +146,10 @@ public class Currency_Frag extends Fragment{
                     alertDialog.setView(input);
 
                     alertDialog.setPositiveButton("BUY", (dialog, which) -> {
-                        String units = input.getText().toString();
+                        String num_of_units = input.getText().toString();
                         String name_of_currency = names.get(pos);
                         String rates1 = new DecimalFormat("#.####").format(rates.get(pos));
-                        Log.i("alertDialog"," "+units+
+                        Log.i("alertDialog"," "+num_of_units+
                                 " "+name_of_currency+" "+
                                 rates);
 
@@ -180,6 +191,7 @@ public class Currency_Frag extends Fragment{
             }
             @Override
             public void onFailure(Call<CurrencyList> call, Throwable t) {
+                progressDoalog.dismiss();
                 Toast.makeText(getActivity(),"Failed to receive Json",Toast.LENGTH_SHORT).show();
 
             }
